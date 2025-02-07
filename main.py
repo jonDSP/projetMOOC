@@ -53,16 +53,72 @@ def afficher_plan(matrice):
             tracer_case((l,c), COULEURS[matrice[l][c]], pas)
 
 
+
+class Player:
+    def __init__(self):
+        self.couleur = COULEUR_PERSONNAGE
+        self.diametre = RATIO_PERSONNAGE * pas
+        self.start_position = POSITION_DEPART
+        self.position = POSITION_DEPART
+
+    def draw_player(self, destination):
+        """ fonction permettant de dessiner le joueur sur la case spécifiée sous forme (ligne,colonne"""
+        def centre_joueur():
+            """calcul du centre de la case en coord-px  pour savoir ou tracer le cercle turtle.dot"""
+            coin_case =  coordonnees(destination, pas)
+            centre_abs = coin_case[0] + 7.5
+            centre_ord = coin_case[1] + 7.5 # pour centrer le cercle dans la case
+            return centre_abs, centre_ord
+        turtle.up()
+        turtle.goto(centre_joueur())
+        turtle.down()
+        turtle.dot(self.diametre, self.couleur)
+
+    def deplacer(self, position, mouvement):
+        tracer_case(position, COULEURS[matrice[position[0]][position[1]]], pas )
+        self.draw_player((position[0]+mouvement[0], position[1]+mouvement[1]))
+        self.position = self.position[0] + mouvement[0], self.position[1]+mouvement[1]
+
+    def deplacer_gauche(self, mouvement=(0,-1)):
+        """ position et mouvement sous forme de tuple(ligne, colonne)
+        en pratique on dessine le joueur sur la case destination et on redessine la case de départ"""
+        self.deplacer(self.position, mouvement)
+
+    def deplacer_droite(self, mouvement =(0,1)):
+        """ position et mouvement sous forme de tuple(ligne, colonne)
+        en pratique on dessine le joueur sur la case destination et on redessine la case de départ"""
+        self.deplacer(self.position, mouvement)
+
+    def deplacer_haut(self, mouvement=(-1,0)):
+        """ position et mouvement sous forme de tuple(ligne, colonne)
+        en pratique on dessine le joueur sur la case destination et on redessine la case de départ"""
+        self.deplacer(self.position, mouvement)
+
+    def deplacer_bas(self, mouvement=(1,0)):
+        """ position et mouvement sous forme de tuple(ligne, colonne)
+        en pratique on dessine le joueur sur la case destination et on redessine la case de départ"""
+        self.deplacer(self.position, mouvement)
+
+
 if __name__ == "__main__":
     # calcul de certaines variables utiles pour le tracé
-    matrice = lire_matrice("plan_chateau.txt")
-    pas = calculer_pas(matrice)
+    matrice = lire_matrice("essai_map.txt")
+    pas = 15  # a remettre a la fin, ici c'esst juste pour les essais calculer_pas(matrice)
 
     # tracé de la map
     turtle.speed(0)
     afficher_plan(matrice)
 
+    # instanciation du joueur et placement initial
+    player = Player()
+    player.draw_player(player.start_position)
+
     # boucle du jeu
+    turtle.listen()  # Déclenche l’écoute du clavier
+    turtle.onkeypress(player.deplacer_gauche, "Left")  # Associe à la touche Left une fonction appelée deplacer_gauche
+    turtle.onkeypress(player.deplacer_droite, "Right")
+    turtle.onkeypress(player.deplacer_haut, "Up")
+    turtle.onkeypress(player.deplacer_bas, "Down")
     turtle.mainloop()
 
 
