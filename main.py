@@ -41,6 +41,7 @@ def tracer_case(case, couleur, pas):
     turtle.down()
     turtle.fillcolor(couleur)
     turtle.begin_fill()
+    turtle.hideturtle()
     tracer_carre(pas)
     turtle.end_fill()
 
@@ -51,12 +52,18 @@ def afficher_plan(matrice):
         for c in range(len(matrice[l])):
             tracer_case((l,c), COULEURS[matrice[l][c]], pas)
 
-matrice = lire_matrice("plan_chateau.txt")
-pas = calculer_pas(matrice)
 
+if __name__ == "__main__":
+    # calcul de certaines variables utiles pour le tracé
+    matrice = lire_matrice("plan_chateau.txt")
+    pas = calculer_pas(matrice)
 
-afficher_plan(matrice)
-turtle.mainloop()
+    # tracé de la map
+    turtle.speed(0)
+    afficher_plan(matrice)
+
+    # boucle du jeu
+    turtle.mainloop()
 
 
 
