@@ -22,27 +22,41 @@ def coordonnees(case,pas):
     """ calcul les coordonnées en px-turtle du coin inf gauche d'une case spécifiée par ses coordonnées
     (n°ligne, n°colonne), nb: le plus en bas a gauche est (-240, -240)
     attention les lignes augmentent de haut en bas alors que l'axe y diminue de haut en bas """
-    abscisses = []
-    ordonnees = []
-    for a in range(-240, 50, pas):
-        abscisses.append(a)
-    for o in range(-240, 200, pas):
-        ordonnees.append(o)
-    abs_coin_inf_gauche = None
-    ord_coin_inf_gauche = None
-    print(abscisses)
-    print(ordonnees)
+    numero_ligne = case[0]
+    numero_colonne = case[1]
+    abs_coin_inf_gauche = -240 + pas * numero_colonne # les numeros de colonne augmentent sur l'axe abscisse
+    ord_coin_inf_gauche = -240 + pas *(26-numero_ligne)
+    return abs_coin_inf_gauche, ord_coin_inf_gauche
 
 def tracer_carre(dimension):
     """ trace le carré dont la dimension en px-turtle est fournie en argument"""
+    for i in range(4):
+        turtle.forward(dimension)
+        turtle.left(90)
 
 def tracer_case(case, couleur, pas):
     """ recoit un couple de coordonnées en indice (ligne colonne) appelle la fonction tracer_carre"""
+    turtle.up()
+    turtle.goto(coordonnees(case, pas)) # permet de convertir les coord-indices de la case en coord-px
+    turtle.down()
+    turtle.fillcolor(couleur)
+    turtle.begin_fill()
+    tracer_carre(pas)
+    turtle.end_fill()
+
 def afficher_plan(matrice):
     """trace la map avec le module turtle a partir de la matrice en appellant la fonction tracer_case
      avec 2 boucles imbriquées"""
-
+    for l in range(len(matrice)):
+        for c in range(len(matrice[l])):
+            tracer_case((l,c), COULEURS[matrice[l][c]], pas)
 
 matrice = lire_matrice("plan_chateau.txt")
 pas = calculer_pas(matrice)
-coordonnees(1, pas)
+
+
+afficher_plan(matrice)
+turtle.mainloop()
+
+
+
