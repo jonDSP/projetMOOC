@@ -16,7 +16,7 @@ COULEUR_EXTERIEUR = 'white'
 
 # Couleur et dimension du personnage
 COULEUR_PERSONNAGE = 'red'
-RATIO_PERSONNAGE = 0.9  # Rapport entre diamètre du personnage et dimension des cases
+RATIO_PERSONNAGE = 0.8  # Rapport entre diamètre du personnage et dimension des cases
 POSITION_DEPART = (0, 1)  # Porte d'entrée du château
 
 # Désignation des fichiers de données à utiliser

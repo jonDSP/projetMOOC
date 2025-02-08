@@ -75,29 +75,41 @@ class Player:
         turtle.dot(self.diametre, self.couleur)
 
     def deplacer(self, position, mouvement):
-        tracer_case(position, COULEURS[matrice[position[0]][position[1]]], pas )
-        self.draw_player((position[0]+mouvement[0], position[1]+mouvement[1]))
-        self.position = self.position[0] + mouvement[0], self.position[1]+mouvement[1]
+        destination = position[0]+mouvement[0], position[1]+mouvement[1]
+        couleur_dest = COULEURS[matrice[destination[0]][destination[1]]]
+        if 0<=destination[0]<= len(matrice) and 0<=destination[1]<= len(matrice[0]) and couleur_dest != "grey":
+            tracer_case(position, COULEURS[matrice[position[0]][position[1]]], pas )
+            self.draw_player((destination[0], destination[1]))
+            self.position = destination
+
 
     def deplacer_gauche(self, mouvement=(0,-1)):
         """ position et mouvement sous forme de tuple(ligne, colonne)
         en pratique on dessine le joueur sur la case destination et on redessine la case de départ"""
+        turtle.onkeypress(None, "Left")
         self.deplacer(self.position, mouvement)
+        turtle.onkeypress(self.deplacer_gauche, "Left")
 
     def deplacer_droite(self, mouvement =(0,1)):
         """ position et mouvement sous forme de tuple(ligne, colonne)
         en pratique on dessine le joueur sur la case destination et on redessine la case de départ"""
+        turtle.onkeypress(None, "Right")
         self.deplacer(self.position, mouvement)
+        turtle.onkeypress(self.deplacer_droite, "Right")
 
     def deplacer_haut(self, mouvement=(-1,0)):
         """ position et mouvement sous forme de tuple(ligne, colonne)
         en pratique on dessine le joueur sur la case destination et on redessine la case de départ"""
+        turtle.onkeypress(None, "Up")
         self.deplacer(self.position, mouvement)
+        turtle.onkeypress(self.deplacer_haut, "Up")
 
     def deplacer_bas(self, mouvement=(1,0)):
         """ position et mouvement sous forme de tuple(ligne, colonne)
         en pratique on dessine le joueur sur la case destination et on redessine la case de départ"""
+        turtle.onkeypress(None, "Down")
         self.deplacer(self.position, mouvement)
+        turtle.onkeypress(self.deplacer_bas, "Down")
 
 
 if __name__ == "__main__":
